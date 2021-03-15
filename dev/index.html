@@ -86,11 +86,93 @@
 <div id="archaeophases" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#archaeophases" class="anchor"></a>ArchaeoPhases</h1></div>
-<p>Tools for the post-processing of the Markov Chain simulated by any software used for the construction of archeological chronologies</p>
-<p>ArchaeoPhases provides functions for the statistical analysis of archaeological dates and groups of dates. It is based on the post-processing of the Markov Chains whose stationary distribution is the posterior distribution of a series of dates. Such MCMC output can be simulated by different applications as for instance <a href="https://chronomodel.com/">ChronoModel</a>, <a href="https://c14.arch.ox.ac.uk/oxcal.html">Oxcal</a>, or <a href="https://bcal.shef.ac.uk/">BCal</a>. The only requirement is to have a CSV file containing a sample from the posterior distribution.</p>
-<p>If this is your first time using ‘ArchaeoPhases’, take a moment to read the vignettes we wrote about the main functions. If you have any questions, feel free to contact us (<a href="mailto:anne.philippe@univ-nantes.fr" class="email">anne.philippe@univ-nantes.fr</a>).</p>
-<p>ArchaeoPhases is currently developed by Anne Philippe member of the Laboratoire de mathématiques Jean Leray, Université de Nantes, France, and by Thomas S. Dye, University of Hawai`i, in Honolulu.</p>
-<p>If you find bugs or want to suggest new features please visit <a href="https://github.com/ArchaeoStat/ArchaeoPhases/issues">ArchaeoPhases GitHub issues</a> or contact us directly (<a href="mailto:anne.philippe@univ-nantes.fr" class="email">anne.philippe@univ-nantes.fr</a>).</p>
+<!-- badges: start -->
+<!-- badges: end -->
+<p><strong>This repository contains a heavily modified fork of the <em>ArchaeoPhases</em> package. You might be interested in the <a href="https://github.com/ArchaeoStat/ArchaeoPhases">original package</a>.</strong></p>
+<div id="overview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p>Tools for the post-processing of the Markov Chain simulated by any software used for the construction of archeological chronologies.</p>
+<p><strong>ArchaeoPhases</strong> provides functions for the statistical analysis of archaeological dates and groups of dates. It is based on the post-processing of the Markov Chains whose stationary distribution is the posterior distribution of a series of dates. Such MCMC output can be simulated by different applications as for instance <a href="https://chronomodel.com/">ChronoModel</a>, <a href="https://c14.arch.ox.ac.uk/oxcal.html">Oxcal</a>, or <a href="https://bcal.shef.ac.uk/">BCal</a>.</p>
+<p>To cite <strong>ArchaeoPhases</strong> in publications please use:</p>
+<blockquote>
+<p>Philippe, Anne &amp; Vibet, Marie-Anne (2020). Analysis of Archaeological Phases Using the R Package ArchaeoPhases. <em>Journal of Statistical Software, Code Snippets</em>, 93(1), 1-25. DOI <a href="https://doi.org/10.18637/jss.v093.c01">10.18637/jss.v093.c01</a>.</p>
+</blockquote>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<p>You can install the released version of <strong>ArchaeoPhases</strong> from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ArchaeoPhases"</span><span class="op">)</span></code></pre></div>
+<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"ArchaeoStat/ArchaeoPhases"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Load packages</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ArchaeoPhases</span><span class="op">)</span>
+
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span></code></pre></div>
+<p>The only requirement is to have a CSV file containing a sample from the posterior distribution.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Read output from ChronoModel</span>
+<span class="va">path_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/chronomodel.zip"</span>, package <span class="op">=</span> <span class="st">"ArchaeoPhases"</span><span class="op">)</span>
+<span class="va">path_csv</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="va">path_zip</span>, exdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">chrono_events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read.html">read_chronomodel</a></span><span class="op">(</span><span class="va">path_csv</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="va">chrono_phases</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read.html">read_chronomodel</a></span><span class="op">(</span><span class="va">path_csv</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p><strong>ArchaeoPhases</strong> uses <a href="https://github.com/tidyverse/ggplot2"><strong>ggplot2</strong></a> for plotting information. This makes it easy to customize diagrams (e.g. using themes and scales).</p>
+<div id="analysis-of-a-series-of-dates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#analysis-of-a-series-of-dates" class="anchor"></a>Analysis of a series of dates</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">chrono_events</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-events-plot-1.png"><!-- --></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Tempo plot</span>
+<span class="va">chrono_events</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/tempo.html">tempo</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span>
+
+<span class="co">## Activity plot</span>
+<span class="va">chrono_events</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/activity.html">activity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-tempo-plot-1.png"><img src="reference/figures/README-tempo-plot-2.png"></p>
+</div>
+<div id="analysis-of-a-series-of-phases" class="section level3">
+<h3 class="hasAnchor">
+<a href="#analysis-of-a-series-of-phases" class="anchor"></a>Analysis of a series of phases</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Get phases</span>
+<span class="va">phases</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/coerce.html">as_phases</a></span><span class="op">(</span><span class="va">chrono_phases</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">phases</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"EPI"</span>, <span class="st">"UP"</span>, <span class="st">"Ahmarian"</span>, <span class="st">"IUP"</span><span class="op">)</span>
+
+<span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">phases</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-phases-plot-1.png"><!-- --></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Set chronological order</span>
+<span class="fu">set_order</span><span class="op">(</span><span class="va">phases</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"IUP"</span>, <span class="st">"Ahmarian"</span>, <span class="st">"UP"</span>, <span class="st">"EPI"</span><span class="op">)</span>
+<span class="fu"><a href="reference/phase.html">get_order</a></span><span class="op">(</span><span class="va">phases</span><span class="op">)</span>
+<span class="co">#&gt; [1] IUP      Ahmarian UP       EPI     </span>
+<span class="co">#&gt; Levels: IUP &lt; Ahmarian &lt; UP &lt; EPI</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">phases</span>, level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-succession-plot-1.png"><!-- --></p>
+</div>
+</div>
 </div>
   </div>
 
@@ -109,7 +191,8 @@
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small>GPL (&gt;= 3)</small></li>
 </ul>
 </div>
 <div class="citation">
