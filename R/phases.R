@@ -154,15 +154,13 @@ setMethod(
   f = "boundaries",
   signature = c(x = "PhasesMCMC", y = "missing"),
   definition = function(x, level = 0.95) {
-    if (length(start) != length(end)) {
-      stop(sprintf("%s and %s must have the same length.",
-                   sQuote("start"), sQuote("end")), call. = FALSE)
-    }
+    ## Check calendar
+    BP <- get_calendar(x) == "BP"
 
-    ## Number of phases
-    start <- x@start
-    end <- x@end
-    L <- length(start)
+    ## Reverse boundaries if BP scale
+    start <- if (BP) x@end else x@start
+    end <- if (BP) x@start else x@end
+    L <- length(start) # Number of phases
 
     # Matrix of results
     result <- matrix(nrow = L, ncol = 2)
@@ -202,15 +200,17 @@ setMethod(
     if (!is_ordered(x)) {
       stop("Phases must be arranged in chronological order.", call. = FALSE)
     }
-    if (length(start) != length(end)) {
-      stop(sprintf("%s and %s must have the same length.",
-                   sQuote("start"), sQuote("end")), call. = FALSE)
-    }
 
-    ## Number of phases
-    start <- utils::head(x@end, -1)
-    end <- utils::tail(x@start, -1)
-    L <- length(start)
+    ## Check calendar
+    BP <- get_calendar(x) == "BP"
+
+    ## Reverse boundaries if BP scale
+    a <- utils::tail(x@start, -1)
+    b <- utils::head(x@end, -1)
+    start <- if (BP) a else b
+    end <- if (BP) b else a
+
+    L <- length(start) # Number of phases
 
     # Names
     names_start <- colnames(x)[start]
@@ -280,15 +280,17 @@ setMethod(
     if (!is_ordered(x)) {
       stop("Phases must be arranged in chronological order.", call. = FALSE)
     }
-    if (length(start) != length(end)) {
-      stop(sprintf("%s and %s must have the same length.",
-                   sQuote("start"), sQuote("end")), call. = FALSE)
-    }
 
-    ## Number of phases
-    start <- utils::head(x@end, -1)
-    end <- utils::tail(x@start, -1)
-    L <- length(start)
+    ## Check calendar
+    BP <- get_calendar(x) == "BP"
+
+    ## Reverse boundaries if BP scale
+    a <- utils::tail(x@start, -1)
+    b <- utils::head(x@end, -1)
+    start <- if (BP) a else b
+    end <- if (BP) b else a
+
+    L <- length(start) # Number of phases
 
     # Names
     names_start <- colnames(x)[start]
