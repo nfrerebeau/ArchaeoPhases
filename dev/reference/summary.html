@@ -183,24 +183,16 @@ columns to the following statistics:</p><dl>
 #&gt; Event.1  -971.03900 -1981.050 -1610.600
 #&gt; Event.22  -66.80520  -802.848  -449.986
 #&gt; Event.12 -718.76100 -1400.900 -1064.410</div><div class='input'>
+<span class='va'>zz</span> <span class='op'>&lt;-</span> <span class='fu'><a href='convert.html'>BCAD_to_BP</a></span><span class='op'>(</span><span class='va'>events</span><span class='op'>)</span>
+
 <span class='co'>## Plot events</span>
-<span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>events</span>, interval <span class='op'>=</span> <span class='st'>"ci"</span><span class='op'>)</span>
-</div><div class='img'><img src='summary-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>events</span>, interval <span class='op'>=</span> <span class='st'>"hpdi"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: first element used of 'length.out' argument</span></div><div class='output co'>#&gt; <span class='warning'>Warning: first element used of 'length.out' argument</span></div><div class='output co'>#&gt; <span class='warning'>Warning: first element used of 'length.out' argument</span></div><div class='output co'>#&gt; <span class='warning'>Warning: first element used of 'length.out' argument</span></div><div class='output co'>#&gt; <span class='warning'>Warning: first element used of 'each' argument</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='img'><img src='summary-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>events</span>, interval <span class='op'>=</span> <span class='st'>"ci"</span>, calendar <span class='op'>=</span> <span class='st'>"BCAD"</span><span class='op'>)</span>
+</div><div class='img'><img src='summary-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>events</span>, interval <span class='op'>=</span> <span class='st'>"hpdi"</span>, calendar <span class='op'>=</span> <span class='st'>"BC"</span><span class='op'>)</span>
+</div><div class='img'><img src='summary-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Compute phases</span>
-<span class='va'>phases</span> <span class='op'>&lt;-</span> <span class='fu'><a href='phase.html'>phase</a></span><span class='op'>(</span><span class='va'>events</span>, groups <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>A <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, B <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>phases</span> <span class='op'>&lt;-</span> <span class='fu'><a href='phase.html'>phase</a></span><span class='op'>(</span><span class='va'>events</span>, groups <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>A <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span>, B <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>, ordered <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'>summary</span><span class='op'>(</span><span class='va'>phases</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $A
-#&gt;               mean       sd       min        q1    median        q3        max
-#&gt; start    -772.9709 147.1085 -1348.660 -889.6788 -749.3505 -671.3958 -206.69900
-#&gt; end      -521.0175 167.8882 -1049.560 -670.4143 -536.9485 -383.5560   -5.14937
-#&gt; duration  251.9534 136.6735     0.004  149.9530  247.9470  343.9115  878.74200
-#&gt;           CI_lower CI_upper
-#&gt; start    -1059.010 -501.118
-#&gt; end       -775.518 -214.316
-#&gt; duration     0.246  485.952
-#&gt; 
-#&gt; $B
 #&gt;                mean        sd      min         q1    median         q3
 #&gt; start    -1785.1618  98.79804 -1999.99 -1856.6800 -1784.640 -1719.0675
 #&gt; end      -1235.4825  86.02219 -1832.90 -1288.5175 -1235.055 -1180.8975
@@ -209,10 +201,21 @@ columns to the following statistics:</p><dl>
 #&gt; start    -1222.980 -1981.05 -1610.60
 #&gt; end       -718.761 -1403.84 -1067.44
 #&gt; duration  1156.261   296.28   804.95
+#&gt; 
+#&gt; $B
+#&gt;               mean       sd       min        q1    median        q3        max
+#&gt; start    -772.9709 147.1085 -1348.660 -889.6788 -749.3505 -671.3958 -206.69900
+#&gt; end      -521.0175 167.8882 -1049.560 -670.4143 -536.9485 -383.5560   -5.14937
+#&gt; duration  251.9534 136.6735     0.004  149.9530  247.9470  343.9115  878.74200
+#&gt;           CI_lower CI_upper
+#&gt; start    -1059.010 -501.118
+#&gt; end       -775.518 -214.316
+#&gt; duration     0.246  485.952
 #&gt; </div><div class='input'>
 <span class='co'>## Plot phases</span>
-<span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>phases</span><span class='op'>)</span>
-</div><div class='img'><img src='summary-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>phases</span>, succession <span class='op'>=</span> <span class='cn'>FALSE</span>, calendar <span class='op'>=</span> <span class='st'>"BCAD"</span><span class='op'>)</span>
+</div><div class='img'><img src='summary-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>phases</span>, succession <span class='op'>=</span> <span class='cn'>TRUE</span>, calendar <span class='op'>=</span> <span class='st'>"BP"</span><span class='op'>)</span>
+</div><div class='img'><img src='summary-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
